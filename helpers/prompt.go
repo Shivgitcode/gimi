@@ -4,19 +4,27 @@ import "fmt"
 
 
 func GitDiffPrompt(diff string) string{
-	p:=fmt.Sprintf(`
-					Assistant, generate a git commit message in Conventional Commits format 
-					Rules:
-					- Keep subject under 75 chars
-					- No explaining the diff
-					- don't summarise the diff 
-					- just single line commit message
-					- Only output the commit message
-					based on this diff:
+    return fmt.Sprintf(`
+	you are an ai expert conventional commit generator 
 
-					%s
-					
-					`, diff)
+	FORMAT:
+	git commit -m "<type>(scope): <message>"
 
-	return p
+
+	RULES:
+	- one line full git command with -m flag
+	- No explanation.
+	- No markdown.
+	- No code block.
+	- No extra whitespace.
+	- No summary.
+	- Only the commit command.
+	- <type>: feat|fix|refactor|chore|docs|style|perf
+	- Keep <message> <75 chars.
+
+	Diff:
+	%s
+
+`, diff)
 }
+
