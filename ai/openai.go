@@ -10,6 +10,7 @@ import (
 
 type OpenAIBackend struct{
 	ApiKey string
+	Model string
 }
 
 func (o *OpenAIBackend) GenerateCommitMessage(prompt string)(string,error){

@@ -2,23 +2,16 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
-
 	"github.com/fatih/color"
-	"github.com/joho/godotenv"
 	"github.com/shivgitcode/gimi/cmd"
 	"github.com/shivgitcode/gimi/helpers"
 )
 
 
 func main(){
-	err:=godotenv.Load()
 	if _,err:=os.Stat(helpers.FilePath());err==nil{
 			helpers.InitConfig()
-	}
-	if err!=nil{
-		log.Fatal("Error loading .env")
 	}
 	
 	if len(os.Args)<=1{

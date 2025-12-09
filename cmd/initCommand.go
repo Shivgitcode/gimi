@@ -35,17 +35,30 @@ func InitCommand(args []string){
 			"ollama",
 		},
 	}
+
+	
 	survey.AskOne(prompt,&result)
 	keyPrompt:=&survey.Input{
 		Message: "Enter Your Openai Api Key: ",
 	}
+	modelPrompt:=&survey.Input{
+		Message:"Enter which model you want to use (default gpt_4.1): ",
+		Default: "gpt_4.1",
+	}
 	apiKey:=""
+	model:="4.1"
+
 
 	
 	if result=="openai"{
 		if viper.GetString("apiKey")==""{
 			survey.AskOne(keyPrompt,&apiKey)
 			viper.Set("apiKey",apiKey)
+		}
+		if viper.GetString("model")==""{
+			survey.AskOne(modelPrompt,&model)
+			viper.Set("model",model)
+
 		}
 	}
 

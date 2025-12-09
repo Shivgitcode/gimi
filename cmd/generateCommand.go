@@ -25,6 +25,8 @@ func GenerateCommitMsg(cmd string,args []string){
 
 	backendVar:=viper.GetString("backend")
 	apiKey:=viper.GetString("apiKey")
+	model:=viper.GetString("model")
+	fmt.Println(model)
 
 	generateCmd.Parse(args)
 
@@ -33,6 +35,10 @@ func GenerateCommitMsg(cmd string,args []string){
 	if backendVar=="openai"{
 		if apiKey==""{
 			color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
+			return
+		}
+		if model==""{
+			color.Yellow("Cannot find model")
 			return
 		}
 	}
