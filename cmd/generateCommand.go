@@ -26,7 +26,7 @@ func GenerateCommitMsg(cmd string,args []string){
 	backendVar:=viper.GetString("backend")
 	apiKey:=viper.GetString("apiKey")
 	model:=viper.GetString("model")
-	fmt.Println(model)
+
 
 	generateCmd.Parse(args)
 
