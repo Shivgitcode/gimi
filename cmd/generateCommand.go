@@ -68,7 +68,7 @@ func GenerateCommand(cmd string,args []string){
 	}
 	prompt:=helpers.GitDiffPrompt(diff)
 
-	backend:=ai.GetBackend(backendVar,apiKey)
+	backend:=ai.GetBackend(backendVar,apiKey,model)
 
 	s.Start()
 	starTime:=time.Now()

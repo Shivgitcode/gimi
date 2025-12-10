@@ -3,6 +3,7 @@ package ai
 import (
 	"context"
 	"strings"
+
 	"google.golang.org/genai"
 )
 
@@ -26,18 +27,18 @@ func(o *GeminiBackend) GenerateCommitMessage(prompt string)(string,error){
 	}
 
 	contents:=[]*genai.Content{{Parts: parts}}
+	config:=&genai.GenerateContentConfig{
+		MaxOutputTokens: 500,
+	}
 
-	result,err:=client.Models.GenerateContent(ctx,o.Model,contents,nil)
+	result,err:=client.Models.GenerateContent(ctx,o.Model,contents,config)
 	if err!=nil{
 		return "",err
 	}
-	response,err:= result.MarshalJSON()
-
-	if err!=nil{
-		return "",err
-	}
 
 
-	return strings.TrimSpace(string(response)),nil
+
+
+	return strings.TrimSpace(string(result.Text())),nil
 
 }

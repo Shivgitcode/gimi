@@ -10,3 +10,12 @@ var GeminiModelPrompt = &survey.Input{
 	Message: "Enter model name for gemini (default gemini-2.5-flash): ",
 	Default: "gemini-2.5-flash",
 }
+
+var BackendPrompt=&survey.Select{
+		Message: "Select Backend",
+		Options: []string{
+			"openai",
+			"ollama",
+			"gemini",
+		},
+	}

@@ -19,7 +19,7 @@ func (o *OpenAIBackend) GenerateCommitMessage(prompt string)(string,error){
 		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage(prompt),
 		},
-		Model: openai.ChatModelGPT4_1,
+		Model: o.Model,
 	})
 	if err!=nil{
 		return "",err

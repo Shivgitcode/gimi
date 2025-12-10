@@ -29,17 +29,8 @@ func InitCommand(args []string){
 	viper.SetConfigType("json")
 	viper.SetConfigFile(configFilePath)
 	result:=""
-	prompt:=&survey.Select{
-		Message: "Select Backend",
-		Options: []string{
-			"openai",
-			"ollama",
-			"gemini",
-		},
-	}
-
 	
-	survey.AskOne(prompt,&result)
+	survey.AskOne(helpers.BackendPrompt,&result)
 	keyPrompt:=&survey.Input{
 		Message: "Enter Your Openai Api Key: ",
 	}
@@ -61,7 +52,6 @@ func InitCommand(args []string){
 		if viper.GetString("model")==""{
 			survey.AskOne(openaiModelPrompt,&model)
 			viper.Set("model",model)
-
 		}
 	case "gemini":
 		if viper.GetString("apiKey")==""{
