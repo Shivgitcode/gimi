@@ -15,7 +15,7 @@ import (
 )
 
 
-func GenerateCommitMsg(cmd string,args []string){
+func GenerateCommand(cmd string,args []string){
 	generateCmd:=flag.NewFlagSet(cmd,flag.ExitOnError)
 
 	if _,err:=os.Stat(helpers.FilePath()); err!=nil{
@@ -33,6 +33,15 @@ func GenerateCommitMsg(cmd string,args []string){
 
 
 	if backendVar=="openai"{
+		if apiKey==""{
+			color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
+			return
+		}
+		if model==""{
+			color.Yellow("Cannot find model")
+			return
+		}
+	}else if backendVar=="gemini"{
 		if apiKey==""{
 			color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
 			return

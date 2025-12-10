@@ -29,7 +29,9 @@ func main(){
 	case "init":
 		cmd.InitCommand(args)
 	case "generate":
-		cmd.GenerateCommitMsg(subCmd,args)
+		cmd.GenerateCommand(subCmd,args)
+	case "reset":
+		cmd.ResetCommand(args)
 	default:
 		color.Cyan("List of available command")
 		fmt.Println("	init - to generate a config where you can add your openai")
