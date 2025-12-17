@@ -18,6 +18,7 @@ import (
 
 func GenerateCommand(cmd string,args []string){
 	generateCmd:=flag.NewFlagSet(cmd,flag.ExitOnError)
+	commitFlag:=generateCmd.Bool("commit",false,"to commit the changes")
 	backendVar:=viper.GetString("backend")
 	apiKey:=viper.GetString("apiKey")
 	model:=viper.GetString("model")
@@ -26,7 +27,7 @@ func GenerateCommand(cmd string,args []string){
 		color.Red("either one of the config (apiKey,model,backendVar) is missing")
 		return
 	}
-	
+
 	stagecmd:=exec.Command("git","add",".")
 
 	err:=stagecmd.Run()
@@ -41,11 +42,6 @@ func GenerateCommand(cmd string,args []string){
 		color.Red("cannot generate file path do not exist use gimi init to initialize config")
 		return
 	}
-
-	
-
-	
-
 
 	generateCmd.Parse(args)
 
@@ -119,6 +115,16 @@ func GenerateCommand(cmd string,args []string){
 	color.Cyan("This your commit msg :\n")
 
 	fmt.Println(commitMessage)
+	cmdarr:=strings.Split(commitMessage," ")
+	if *commitFlag{
+		commitCmd:=exec.Command(cmdarr[0],cmdarr[1],cmdarr[2],cmdarr[3])
+		output,err:=commitCmd.Output()
+		if err!=nil{
+			color.Red(err.Error())
+			return
+		}
+		color.Green(string(output))
+	}
 
 	color.RGB(0, 255, 255).Printf("Processing complete %v\n",time.Since(starTime).Round(100*time.Millisecond))
 
