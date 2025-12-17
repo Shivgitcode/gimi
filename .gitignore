@@ -59,3 +59,4 @@ artifacts/
 *.tar.gz
 *.zip
 gimi
+npm/
