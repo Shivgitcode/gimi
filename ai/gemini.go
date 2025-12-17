@@ -27,8 +27,12 @@ func(o *GeminiBackend) GenerateCommitMessage(prompt string)(string,error){
 	}
 
 	contents:=[]*genai.Content{{Parts: parts}}
+	temp := float32(0.2)
+	seed := int32(40)
 	config:=&genai.GenerateContentConfig{
 		MaxOutputTokens: 500,
+		Temperature: &temp,
+		Seed:&seed,
 	}
 
 	result,err:=client.Models.GenerateContent(ctx,o.Model,contents,config)

@@ -18,6 +18,15 @@ import (
 
 func GenerateCommand(cmd string,args []string){
 	generateCmd:=flag.NewFlagSet(cmd,flag.ExitOnError)
+	backendVar:=viper.GetString("backend")
+	apiKey:=viper.GetString("apiKey")
+	model:=viper.GetString("model")
+
+	if apiKey=="" || model=="" || backendVar==""{
+		color.Red("either one of the config (apiKey,model,backendVar) is missing")
+		return
+	}
+	
 	stagecmd:=exec.Command("git","add",".")
 
 	err:=stagecmd.Run()
@@ -25,6 +34,7 @@ func GenerateCommand(cmd string,args []string){
 	if err!=nil{
 		color.Red("cannot stage your changes")
 	}
+	color.Cyan("Staged Successfully ✔︎")
 	
 
 	if _,err:=os.Stat(helpers.FilePath()); err!=nil{
@@ -32,9 +42,9 @@ func GenerateCommand(cmd string,args []string){
 		return
 	}
 
-	backendVar:=viper.GetString("backend")
-	apiKey:=viper.GetString("apiKey")
-	model:=viper.GetString("model")
+	
+
+	
 
 
 	generateCmd.Parse(args)
