@@ -58,4 +58,6 @@ artifacts/
 *.sig
 *.tar.gz
 *.zip
+*.sh
 gimi
+npm/

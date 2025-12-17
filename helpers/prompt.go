@@ -13,6 +13,7 @@ func GitDiffPrompt(diff string) string{
 
 	RULES:
 	- one line full git command with -m flag
+	- only one commit command
 	- No explanation.
 	- No markdown.
 	- No code block.

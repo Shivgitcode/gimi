@@ -36,7 +36,7 @@ func InitCommand(args []string){
 	}
 	openaiModelPrompt:=&survey.Input{
 		Message:"Enter which model you want to use (default gpt_4.1): ",
-		Default: "gpt_4.1",
+		Default: "gpt-4.1",
 	}
 	apiKey:=""
 	model:=""

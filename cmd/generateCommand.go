@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -17,39 +18,54 @@ import (
 
 func GenerateCommand(cmd string,args []string){
 	generateCmd:=flag.NewFlagSet(cmd,flag.ExitOnError)
+	commitFlag:=generateCmd.Bool("commit",false,"to commit the changes")
+	backendVar:=viper.GetString("backend")
+	apiKey:=viper.GetString("apiKey")
+	model:=viper.GetString("model")
+
+	if apiKey=="" || model=="" || backendVar==""{
+		color.Red("either one of the config (apiKey,model,backendVar) is missing")
+		return
+	}
+
+	stagecmd:=exec.Command("git","add",".")
+
+	err:=stagecmd.Run()
+
+	if err!=nil{
+		color.Red("cannot stage your changes")
+	}
+	color.Cyan("Staged Successfully ✔︎")
+	
 
 	if _,err:=os.Stat(helpers.FilePath()); err!=nil{
 		color.Red("cannot generate file path do not exist use gimi init to initialize config")
 		return
 	}
 
-	backendVar:=viper.GetString("backend")
-	apiKey:=viper.GetString("apiKey")
-	model:=viper.GetString("model")
-
-
 	generateCmd.Parse(args)
 
 
 
-	if backendVar=="openai"{
-		if apiKey==""{
-			color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
-			return
-		}
-		if model==""{
-			color.Yellow("Cannot find model")
-			return
-		}
-	}else if backendVar=="gemini"{
-		if apiKey==""{
-			color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
-			return
-		}
-		if model==""{
-			color.Yellow("Cannot find model")
-			return
-		}
+	switch backendVar{
+		case "openai":
+			if apiKey==""{
+				color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
+				return
+			}
+			if model==""{
+				color.Yellow("Cannot find model")
+				return
+			}
+		case "gemini":
+			if apiKey==""{
+				color.Yellow("export your own openai api key to use open ai backend\nexport OPENAI_API_KEY=sk-xxx\n else you can use ollama which is free and much faster")
+				return
+			}
+			if model==""{
+				color.Yellow("Cannot find model")
+				return
+			}
 	}
 
 
@@ -99,6 +115,16 @@ func GenerateCommand(cmd string,args []string){
 	color.Cyan("This your commit msg :\n")
 
 	fmt.Println(commitMessage)
+	cmdarr:=strings.Split(commitMessage," ")
+	if *commitFlag{
+		commitCmd:=exec.Command(cmdarr[0],cmdarr[1],cmdarr[2],cmdarr[3])
+		output,err:=commitCmd.Output()
+		if err!=nil{
+			color.Red(err.Error())
+			return
+		}
+		color.Green(string(output))
+	}
 
 	color.RGB(0, 255, 255).Printf("Processing complete %v\n",time.Since(starTime).Round(100*time.Millisecond))
 
