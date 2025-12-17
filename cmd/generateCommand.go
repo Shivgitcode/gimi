@@ -34,6 +34,7 @@ func GenerateCommand(cmd string,args []string){
 
 	if err!=nil{
 		color.Red("cannot stage your changes")
+		return
 	}
 	color.Cyan("Staged Successfully ✔︎")
 	
