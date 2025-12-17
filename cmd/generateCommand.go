@@ -76,7 +76,6 @@ func GenerateCommand(cmd string,args []string){
 
 	diff,err:=helpers.GetGitDiff()
 	if err!=nil{
-		fmt.Println("hello")
 		color.Red(err.Error())
 		return
 	}
